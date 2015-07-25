@@ -22,10 +22,11 @@ merge_data <- function(){
   #get column names and target column indicies
   colnames <- scan(file = "UCI HAR Dataset/features.txt",
                    n=561*2,
+                   quiet = TRUE,
                    what=list(numeric(1),character(1))
   )
   colnames <- colnames[[2]]
-  targetColumns = sort(c(grep("mean()",colnames),grep("std()",colnames)))
+  targetColumns = sort(c(grep("mean\\(",colnames),grep("std\\(",colnames)))
   
   
   
@@ -51,7 +52,7 @@ merge_data <- function(){
   
   
   
-  #read and apply activities
+  #read and append activities
   Activity<-scan(file="UCI HAR Dataset/test/y_test.txt",
                        what=integer(1),
                        quiet=TRUE)
@@ -65,12 +66,25 @@ merge_data <- function(){
   
   
   
+  #read and append subjects
+  Subject<-scan(file="UCI HAR Dataset/test/subject_test.txt",
+                 what=integer(1),
+                 quiet=TRUE)
+  testData <- cbind(testData,Subject)  
+  
+  Subject<-scan(file="UCI HAR Dataset/train/subject_train.txt",
+                what=integer(1),
+                quiet=TRUE)
+  trainData <- cbind(trainData,Subject)  
+  rm(Subject)
+  
+  
   #add Test/Train types
   #1 for Test, 2 for Train
-  testData <- cbind(testData, rep(1,nrow(testData)) )
-  colnames(testData)[ncol(testData)] <- "Set"
-  trainData <-cbind(trainData, rep(2,nrow(trainData)))
-  colnames(trainData)[ncol(trainData)] <- "Set"
+  #testData <- cbind(testData, rep(1,nrow(testData)) )
+  #colnames(testData)[ncol(testData)] <- "Set"
+  #trainData <-cbind(trainData, rep(2,nrow(trainData)))
+  #colnames(trainData)[ncol(trainData)] <- "Set"
   
   
   
@@ -84,11 +98,35 @@ merge_data <- function(){
                              colClasses = c("integer","character"))
   harData$Activity<-factor(harData$Activity,activityLabels[[1]],activityLabels[[2]])
   rm(activityLabels)
-  harData$Set<-factor(harData$Set,c(1,2),c("Test","Train"))
+  #harData$Subject <- as.factor(harData$Subject)
+  #harData$Set<-factor(harData$Set,c(1,2),c("Test","Train"))
   
   return(harData)
 }
 
-run_analysis<-function(){
-  return(merge_data())
+
+
+
+# arguments:
+# writeDataset: Write the data set to file or return as a variable.
+# filename:     Name of the file to be written if writeDataset is TRUE
+run_analysis<-function(writeToFile=TRUE,
+                       filename="dataset.txt"){
+  #temporary
+  mergedData <- merge_data()
+
+  #aggregate data to means
+  mergedData <- aggregate(mergedData[,1:(ncol(mergedData)-2)],
+                          list(Actitivy=mergedData$Activity,
+                               Subject=mergedData$Subject),
+                          mean)
+  
+  #write out data set as a txt file created with write.table() using row.name=FALSE
+  if(writeToFile){
+    write.table(x = mergedData,
+              file = filename,
+              row.names = FALSE)
+  }else{
+    return(mergedData)
+  }
 }
