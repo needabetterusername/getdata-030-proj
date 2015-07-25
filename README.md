@@ -2,7 +2,7 @@
 
 This repository is a submission for the course project of "Getting and Cleaning Data" offered via Coursera.org by JHU.
 
-This dataset provides the per-activity, per-subject, mean values for each mean() and std() measurement provided in the the below source dataset. This data set is provided in a "wide" tidy format.
+This dataset provides the per-activity, per-subject mean values for each mean() and std() measurement provided in the the below source dataset. This data set is provided in a "wide" tidy format. Please see CodeBook.md for details on the content and format.
 
 #### Source data set
 The original dataset is processed movement data from the accelerometers of the Samsung Galaxy S smartphone. Further information on the original project and data set is available 
@@ -16,6 +16,16 @@ Four files are provided with this data set:
 * CodeBook.md - the code book which explains the format and contents of the data set contained in dataset.txt.
 * dataset.txt - a text file format copy of the data set.
 * run_analysis.R - an R script which will re-generate the data set contained in dataset.txt when provided with the original data set.
+
+## Reading the data set
+The data set can e read form the test file with the following R command:
+
+```{R}
+dataset <- read.table("dataset.txt",
+						header=TRUE,
+						sep=" ",
+						check.names = FALSE)
+```
 
 ## Re-Generating the Data Set
 First a copy of the source data set must be made available in the R working directory under the sub-folder "UCI HAR Dataset".

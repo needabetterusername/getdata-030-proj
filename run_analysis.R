@@ -79,14 +79,6 @@ merge_data <- function(){
   rm(Subject)
   
   
-  #add Test/Train types
-  #1 for Test, 2 for Train
-  #testData <- cbind(testData, rep(1,nrow(testData)) )
-  #colnames(testData)[ncol(testData)] <- "Set"
-  #trainData <-cbind(trainData, rep(2,nrow(trainData)))
-  #colnames(trainData)[ncol(trainData)] <- "Set"
-  
-  
   
   #convert to data.frame, add factors
   harData <- rbind(testData,trainData)
@@ -98,8 +90,7 @@ merge_data <- function(){
                              colClasses = c("integer","character"))
   harData$Activity<-factor(harData$Activity,activityLabels[[1]],activityLabels[[2]])
   rm(activityLabels)
-  #harData$Subject <- as.factor(harData$Subject)
-  #harData$Set<-factor(harData$Set,c(1,2),c("Test","Train"))
+  harData$Subject <- as.integer(harData$Subject)
   
   return(harData)
 }
@@ -112,10 +103,11 @@ merge_data <- function(){
 # filename:     Name of the file to be written if writeDataset is TRUE
 run_analysis<-function(writeToFile=TRUE,
                        filename="dataset.txt"){
-  #temporary
+  # temporary
   mergedData <- merge_data()
 
-  #aggregate data to means
+  # Aggregate data to means
+  # This will create a "wide-form tidy" data set
   mergedData <- aggregate(mergedData[,1:(ncol(mergedData)-2)],
                           list(Actitivy=mergedData$Activity,
                                Subject=mergedData$Subject),
