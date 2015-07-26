@@ -113,6 +113,9 @@ run_analysis<-function(writeToFile=TRUE,
                                Subject=mergedData$Subject),
                           mean)
   
+  #order data by activity then participant
+  mergedData <- mergedData[order(mergedData$Actitivy,mergedData$Subject),]
+  
   #write out data set as a txt file created with write.table() using row.name=FALSE
   if(writeToFile){
     write.table(x = mergedData,
