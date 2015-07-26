@@ -18,7 +18,7 @@ Four files are provided with this data set:
 * run_analysis.R - an R script which will re-generate the data set contained in dataset.txt when provided with the original data set.
 
 ## Reading the data set
-The data set can e read form the test file with the following R command:
+The data set can be read from the test file with the following R command:
 
 ```{R}
 dataset <- read.table("dataset.txt",

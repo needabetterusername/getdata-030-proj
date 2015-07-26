@@ -22,37 +22,29 @@ Each line in the file contains a single observation. Each observation is the set
 |---------|------|---------|
 |Activity | Char | The type of activity performed when the data was interpreted. Has of of the following values <ul><li>WALKING</li><li>WALKING\_UPSTAIRS</li><li>WALKING\_DOWNSTAIRS</li><li>SITTING</li><li>STANDING</li><li>LAYING</li>|
 |Subject | Integer | Identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. |
-|{1:66} | Numeric (float) | A series of 66 values giving the mean of a single measurement for that activity and subject. The order of measurements is given below. For all measurements the mean() and std() values are given in that order. For directional measurements, these are given in the order X, Y, Z.|
+|[1:66] | Numeric (float) | A series of 66 values giving the mean of a single measurement for that activity and subject. The order of the measurements is given below. For all measurements the mean() and std() values are given in that order. For directional measurements, each of the X, Y and Z values are give in that order. All values are normalized between -1 and +1. |
 
 #####Order and Type of Meaurements
-Directional:
 
-* tBodyAcc()
-* tGravityAcc()
-* tBodyAccJerk()
-* tBodyGyro()
-* tBodyGyroJerk()
-
-Scalar:
-
-* tBodyAccMag()
-* tGravityAccMag()
-* tBodyAccJerkMag()
-* tBodyGyroMag()
-* tBodyGyroJerkMag()
-
-Directional:
-
-* fBodyAcc()
-* fBodyAccJerk()
-* fBodyGyro()
-
-Scalar:
-
-* fBodyAccMag()
-* fBodyBodyAccJerkMag()
-* fBodyBodyGyroMag()
-* fBodyBodyGyroJerkMag()
+| Measurement | Type |
+|------------| ------|
+| tBodyAcc() | Directional |
+| tGravityAcc() | Directional |
+| tBodyAccJerk() | Directional |
+| tBodyGyro() | Directional |
+| tBodyGyroJerk() | Directional |
+| tBodyAccMag() | Scalar |
+| tGravityAccMag() | Scalar |
+| tBodyAccJerkMag() | Scalar |
+| tBodyGyroMag() | Scalar |
+| tBodyGyroJerkMag() | Scalar |
+| fBodyAcc() | Directional |
+| fBodyAccJerk() | Directional |
+| fBodyGyro() | Directional |
+| fBodyAccMag() | Scalar |
+| fBodyBodyAccJerkMag() | Scalar |
+| fBodyBodyGyroMag() | Scalar |
+| fBodyBodyGyroJerkMag() | Scalar |
 
 ##Transformation (method)
 This data set was created by merging the training and test data of the original data set described in README.md. While the full, exact method can be inspected form the .R script, the below overall steps were applied to transform the data set.
